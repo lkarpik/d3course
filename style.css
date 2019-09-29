@@ -1,0 +1,11 @@
+.lines {
+    stroke: tan;
+    fill: green;
+    stroke-width: 11px;
+}
+
+.lines path {
+    stroke: deepskyblue;
+    fill: aliceblue;
+    stroke-linejoin: round;
+}

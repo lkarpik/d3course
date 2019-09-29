@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D3 Tutorial</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+    <h1>D3 course from freecodecamp.org</h1>
+    <svg height="50vw" width="100vw">
+        <g transform="scale(0.75)">
+            <circle r="50" cx="100" cy="50"></circle>
+            <rect width="100" height="100" x="200" y="0" fill="red"></rect>
+
+            <circle r="50" cx="100" cy="175"></circle>
+            <rect width="100" height="100" x="200" y="125" fill="red"></rect>
+
+            <g transform="translate(275,0)" fill="gold" stroke="black" stroke-width="5">
+                <circle r="50" cx="100" cy="175"></circle>
+                <rect width="100" height="100" x="200" y="125" fill="red"></rect>
+            </g>
+            <g class="lines" stroke="green" stroke-width="3">
+                <line x1="325" y1="50" x2="575" y2="50"></line>
+                <line x1="325" y1="5" x2="575" y2="50"></line>
+                <line x1="325" y1="5" x2="325" y2="50"></line>=
+                <path d="M575 5 L575 50 L325 5"></path>
+            </g>
+        </g>
+
+    </svg>
+</body>
+<script src="main.js"></script>
+
+</html>
