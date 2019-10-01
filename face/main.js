@@ -16,7 +16,7 @@ const circle = g.append('circle')
     .attr('r', width / 2 / 2);
 
 const gEyes = g.append('g')
-    .attr('fill', 'darkgrey')
+    .attr('fill', 'black')
     .attr('transform', `translate(0, ${-width / 16})`);
 
 const leftEye = gEyes.append('circle')
@@ -27,23 +27,35 @@ const rightEye = gEyes.append('circle')
     .attr('cx', width / 2 / 2 / 2)
     .attr('r', width / 32);
 
-const lEyebrow = gEyes.append('rect')
+const eyebrowsG = gEyes.append('g')
+    .attr('transform', `translate(0, ${-width / 16})`);
+
+eyebrowsG
+    .transition()
+    .duration(1000)
+    .attr('transform', `translate(0, ${-width / 16-50})`)
+    .transition()
+    .duration(1000)
+    .attr('transform', `translate(0, ${-width / 16})`);
+
+
+
+
+const lEyebrow = eyebrowsG.append('rect')
     .attr('width', width / 16)
     .attr('height', width / 64)
-    .attr('x', width / 2 / 2 / 2 - (width / 32))
-    .attr('y', -width / 16)
+    .attr('x', width / 2 / 2 / 2 - (width / 32));
 
-const rEyebrow = gEyes.append('rect')
+
+const rEyebrow = eyebrowsG.append('rect')
     .attr('width', width / 16)
     .attr('height', width / 64)
-    .attr('x', -width / 2 / 2 / 2 - (width / 32))
-    .attr('y', -width / 16)
-
+    .attr('x', -width / 2 / 2 / 2 - (width / 32));
 
 const smile = g.append('path')
     .attr('d', arc({
         innerRadius: 0,
-        outerRadius: 100,
+        outerRadius: width / 8,
         startAngle: Math.PI / 2,
         endAngle: Math.PI * 3 / 2
     }))
