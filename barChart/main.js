@@ -18,29 +18,32 @@ async function getData() {
         }).reduce((acc, el) => {
             if (!acc[el.city]) {
                 acc[el.city] = 0;
+
             }
             acc[el.city] += el.price;
             return acc;
         }, {}));
 
-        let y = d3.scaleLinear().domain([0, Math.max(...chartData.map(el => el[1]))]).range([0, width / 2]);
+        let y = d3.scaleLinear().domain([0, Math.max(...chartData.map(el => el[1]))]).range([width / 2, 0]);
+        let color = d3.scaleLinear().domain([0, Math.max(...chartData.map(el => el[1]))]).range(["green", "brown"]);
+
 
 
         console.log(chartData);
         svg.selectAll("rect")
             .data(chartData)
             .enter().append("rect")
-            .attr("x", (d, i) => `${i * 50}px`)
-            .attr("y", "0px")
+            .style("fill", d => {
+                console.log(color(d[1]));
+                return color(d[1])
+            })
+            .attr("x", (d, i) => `${i * (50+10)}px`)
+
+            .attr("y", (d) => y(d[1]))
             .attr("width", "50px")
             .attr("height", (d) => {
-
-                return `${y(d[1])}px`
+                return `${width/2 - y(d[1])}px`
             })
-            .attr('transform', 'translate(' + 0 + ',' + 0 + ')')
-
-
-
 
     } catch (error) {
         console.log(error);
