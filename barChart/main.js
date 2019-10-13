@@ -1,15 +1,19 @@
-let width = +window.innerWidth;
-
-const svg = d3.select('svg')
-    .attr("width", width)
-    .attr("height", width / 2)
-    .style('background-color', '#888');
-
 getData();
-let dataOut;
+
+window.addEventListener("resize", getData);
+
 async function getData() {
+    let width = +window.innerWidth / 2;
+    let height = +window.innerHeight / 2;
+
+    let svg = d3.select('svg')
+        .attr("width", width)
+        .attr("height", height)
+        .style('background-color', '#888');
+
     try {
         const data = await d3.csv('data.csv');
+        console.log("data pull");
         const chartData = Object.entries(data.map(el => {
             return {
                 price: +el.price,
@@ -24,12 +28,14 @@ async function getData() {
             return acc;
         }, {}));
 
-        let y = d3.scaleLinear().domain([0, Math.max(...chartData.map(el => el[1]))]).range([width / 2, 0]);
+        let y = d3.scaleLinear().domain([0, Math.max(...chartData.map(d => d[1]))]).range([height, 0]);
         let color = d3.scaleLinear().domain([0, Math.max(...chartData.map(el => el[1]))]).range(["green", "brown"]);
+        const barOffset = 10;
+        let barWidth = width / chartData.length - barOffset;
+        console.log(barWidth);
+        // remove for responsive sizing
+        svg.selectAll("rect").remove();
 
-
-
-        console.log(chartData);
         svg.selectAll("rect")
             .data(chartData)
             .enter().append("rect")
@@ -37,53 +43,15 @@ async function getData() {
                 console.log(color(d[1]));
                 return color(d[1])
             })
-            .attr("x", (d, i) => `${i * (50+10)}px`)
+            .attr("x", (d, i) => `${i * (barWidth+barOffset)}px`)
 
             .attr("y", (d) => y(d[1]))
-            .attr("width", "50px")
+            .attr("width", barWidth + "px")
             .attr("height", (d) => {
-                return `${width/2 - y(d[1])}px`
+                return `${height - y(d[1])}px`
             })
 
     } catch (error) {
         console.log(error);
     }
 }
-
-let badArray = [{
-        name: "Luck",
-        age: 33,
-        hair: "Brown"
-    },
-    {
-        name: "Buck",
-        age: 22,
-        hair: "White"
-    },
-    {
-        name: "Buck",
-        age: 5,
-        hair: "White"
-    },
-    {
-        name: "Stuck",
-        age: 22,
-        hair: "White"
-    },
-    {
-        name: "Luck",
-        age: 22,
-        hair: "White"
-    }
-];
-
-function massage() {
-    console.log(badArray);
-    return badArray.reduce((acc, el, index) => {
-
-        acc.push(index);
-        return acc;
-    }, []);
-}
-
-console.log('masage', massage());
